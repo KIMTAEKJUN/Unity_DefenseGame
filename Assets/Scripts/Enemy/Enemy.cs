@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
-{
+public abstract class Enemy : MonoBehaviour {
     public string Name { get; set; }
     public float Health { get; set; }
     public float Speed { get; set; }
@@ -92,5 +91,11 @@ public abstract class Enemy : MonoBehaviour
         // 경로 설정
         Path = newPath;
         _currentPathIndex = 0;
+    }
+    
+    public virtual void SpecialAbility() 
+    {
+        // 적별 특수 능력 구현
+        
     }
 }
