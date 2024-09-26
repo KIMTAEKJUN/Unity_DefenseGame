@@ -2,7 +2,6 @@ using UnityEngine;
 
 public abstract class Tower : MonoBehaviour
 {
-    public string die
     public string Name { get; set; }
     public float Range { get; set; }
     public float AttackPower { get; set; }
