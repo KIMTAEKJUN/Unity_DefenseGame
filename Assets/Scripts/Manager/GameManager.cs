@@ -3,64 +3,68 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class GameManager : Singleton<MonoBehaviour>
+    public class GameManager : Singleton<GameManager>
     {
-        public float PlayerHealth { get; private set; }
-        public float Score { get; private set; }
+        public ScoreManager ScoreManager { get; private set; }
+        public HealthManager HealthManager { get; private set; }
+        public MoneyManager MoneyManager { get; private set; }
+        public EnemyManager EnemyManager { get; private set; }
+        public TowerManager TowerManager { get; private set; }
         
         protected override void Awake()
         {
             base.Awake();
             
+            // 매니저 초기화
+            ScoreManager = gameObject.AddComponent<ScoreManager>();
+            HealthManager = gameObject.AddComponent<HealthManager>();
+            HealthManager.Initialize(100f);
+            MoneyManager = gameObject.AddComponent<MoneyManager>();
+            EnemyManager = gameObject.AddComponent<EnemyManager>();
+            TowerManager = gameObject.AddComponent<TowerManager>();
+
             // 게임 시작 시
-            Initialize(100f);
-            
-            // 점수 추가
-            AddScore(10f);
-            
-            // 체력 감소
-            ReducePlayerHealth(10f);
-            
-            // 아이템 생성
-            SpawnItem(new Vector3(1, 0, 1));
-            
+            ScoreManager.AddScore(10f);
+            HealthManager.ReducePlayerHealth(10f);
+
             // 게임 오버 체크
             CheckGameOver();
         }
         
-        public void Initialize(float initialPlayerHealth)
-        {
-            PlayerHealth = initialPlayerHealth;
-            Score = 0;
-            Debug.Log($"게임 매니저 초기화. 초기 체력: {PlayerHealth}");
-        }
-        
-        public void AddScore(float amount)
-        {
-            Score += amount;
-            Debug.Log($"점수 {amount}를 획득했습니다. 현재 점수: {Score}");
-        }
-
-        public void ReducePlayerHealth(float amount = 1)
-        {
-            PlayerHealth -= amount;
-            Debug.Log($"데미지 {amount}를 입었습니다. 남은 체력: {PlayerHealth}");
-            CheckGameOver();
-        }
-
         public void CheckGameOver()
         {
-            if (PlayerHealth <= 0)
+            if (HealthManager.PlayerHealth <= 0)
             {
                 Debug.Log("게임 오버!");
-                // 게임 오버 로직 구현
+                GameOver();
             }
         }
-
-        public void SpawnItem(Vector3 position)
+        
+        private void GameOver()
         {
-            // 아이템 생성 로직 구현
-            Debug.Log($"아이템 생성: {position}");
+            // 게임 오버 로직 구현
+            Time.timeScale = 0; // 게임 일시 정지
+            ShowGameOverUI(); // UI 표시
+        }
+        
+        private void ShowGameOverUI()
+        {
+            Debug.Log("게임 오버 화면 표시");
+            // UI 관련 코드 추가
+        }
+        
+        public void BuyTower(int towerIndex, float cost, Vector3 position)
+        {
+            // SpendMoney 메서드를 사용하여 돈 차감 시도
+            if (MoneyManager.SpendMoney(cost))
+            {
+                TowerManager.SpawnTower(towerIndex, position); // 타워 생성
+                Debug.Log($"타워 구매 성공! 남은 돈: {MoneyManager.Instance.Money}");
+            }
+            else
+            {
+                Debug.Log("돈이 부족하여 타워를 구매할 수 없습니다.");
+            }
         }
     }
 }
