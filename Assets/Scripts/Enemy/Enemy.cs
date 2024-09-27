@@ -1,25 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Manager;
 
 public abstract class Enemy : MonoBehaviour {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public float Speed { get; set; }
-    public Vector3 Position { get; set; }
-    public List<Vector3> Path { get; set; }
+    public string Name { get; private set; }
+    public float Health { get; private set; }
+    public float Speed { get; private set; }
+    public Vector3 Position { 
+        get => transform.position;
+        set => transform.position = value;
+    }
+    public List<Vector3> Path { get; private set; }
     private int _currentPathIndex;
     
-    // 생성자 추가, 속성 초기화
-    protected Enemy(string name, float health, float speed)
+    public void SetName(string newEnemyName)
     {
-        Name = name;
-        Health = health;
-        Speed = speed;
+        Name = newEnemyName;
+    }
+    
+    protected virtual void Awake()
+    {
         Path = new List<Vector3>();
         _currentPathIndex = 0;
     }
     
-    // 이동 로직
     public virtual void Move()
     {
         if (_currentPathIndex < Path.Count)
@@ -44,10 +48,8 @@ public abstract class Enemy : MonoBehaviour {
         Debug.Log($"{Name}이 이동합니다. 스피드: {Speed}");
     }
     
-    // 공격 로직
     public virtual void TakeDamage(float damage)
     {
-        // 체력 감소
         Health -= damage;
         Debug.Log($"{Name}이 {damage}의 데미지를 입었습니다. 남은 체력: {Health}");
         if (Health <= 0)
@@ -56,46 +58,48 @@ public abstract class Enemy : MonoBehaviour {
         }
     }
     
-    // 사망 로직
     private void Die()
     {
+        // 적 제거 시 점수 추가
+        ScoreManager.Instance.AddScore(10f);
+        
+        // 돈 드롭
+        MoneyManager.Instance.AddMoney(50f);
+        
         // 적 제거
-        GameObject.Destroy(gameObject);
-        
-        // 점수 추가
-        
-        
-        // 아이템 드롭
-        
+        EnemyManager.Instance.RemoveEnemy(gameObject);
         
         Debug.Log($"{Name}이 사망했습니다.");
     }
     
-    // 적이 타워에 도달했을 때 실행되는 로직 
     protected virtual void ReachedEnd()
     {
         // 플레이어 체력 감소
-        
+        HealthManager.Instance.ReducePlayerHealth(10f);
         
         // 적 제거
-        GameObject.Destroy(this.gameObject);
+        EnemyManager.Instance.RemoveEnemy(gameObject);
         
         // 게임 오버 체크
+        GameManager.Instance.CheckGameOver();
         
         Debug.Log($"{Name}이 목적지에 도달했습니다.");
     }
     
-    // 새로운 경로로 이동하는 로직
     public void SetPath(List<Vector3> newPath)
     {
         // 경로 설정
-        Path = newPath;
+        Path = new List<Vector3>(newPath);
         _currentPathIndex = 0;
     }
     
     public virtual void SpecialAbility() 
     {
-        // 적별 특수 능력 구현
-        
+        // 적군별 특수 능력 구현
+    }
+    
+    protected virtual void Update()
+    {
+        Move();
     }
 }
