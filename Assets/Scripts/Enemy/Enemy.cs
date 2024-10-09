@@ -1,105 +1,62 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
-using Manager;
 
-public abstract class Enemy : MonoBehaviour {
-    public string Name { get; private set; }
-    public float Health { get; private set; }
-    public float Speed { get; private set; }
-    public Vector3 Position { 
-        get => transform.position;
-        set => transform.position = value;
-    }
-    public List<Vector3> Path { get; private set; }
-    private int _currentPathIndex;
-    
-    public void SetName(string newEnemyName)
+public class Enemy : MonoBehaviour
+{
+    private int _wayPointCount;
+    private Transform[] _wayPoints;
+    private int _currentWayPointIndex = 0;
+    private Movement _movement;
+    private EnemySpawner _enemySpawner;
+
+    public void Setup(EnemySpawner enemySpawner, Transform[] wayPoints)
     {
-        Name = newEnemyName;
+        _movement = GetComponent<Movement>();
+        _enemySpawner = enemySpawner;
+        
+        _wayPointCount = wayPoints.Length;
+        _wayPoints = new Transform[_wayPointCount];
+        _wayPoints = wayPoints;
+        
+        transform.position = _wayPoints[_currentWayPointIndex].position;
+
+        StartCoroutine("OnMove");
     }
-    
-    protected virtual void Awake()
+
+    private IEnumerator OnMove()
     {
-        Path = new List<Vector3>();
-        _currentPathIndex = 0;
-    }
-    
-    public virtual void Move()
-    {
-        if (_currentPathIndex < Path.Count)
+        NextMoveTo();
+        
+        while (true)
         {
-            Vector3 targetPosition = Path[_currentPathIndex];
-            Vector3 moveDir = (targetPosition - Position).normalized;
-            Position += moveDir * Speed * Time.deltaTime;
+            transform.Rotate(Vector3.forward * 10);
             
-            // 캐릭터 회전
-            transform.rotation = Quaternion.LookRotation(moveDir);
-            
-            // 목적지에 도달했을 때 다음 인덱스로 이동
-            if (Vector3.Distance(Position, targetPosition) < 0.1f)
+            if (Vector3.Distance(transform.position, _wayPoints[_currentWayPointIndex].position) < 0.02f * _movement.MoveSpeed)
             {
-                _currentPathIndex++;
+                NextMoveTo();
             }
+            
+            yield return null;
+        }
+    }
+
+    private void NextMoveTo()
+    {
+        if (_currentWayPointIndex < _wayPointCount - 1)
+        {
+            transform.position = _wayPoints[_currentWayPointIndex].position;
+            _currentWayPointIndex++;
+            Vector3 direction = (_wayPoints[_currentWayPointIndex].position - transform.position).normalized;
+            _movement.MoveTo(direction);
         }
         else
         {
-            ReachedEnd();
-        }
-        Debug.Log($"{Name}이 이동합니다. 스피드: {Speed}");
-    }
-    
-    public virtual void TakeDamage(float damage)
-    {
-        Health -= damage;
-        Debug.Log($"{Name}이 {damage}의 데미지를 입었습니다. 남은 체력: {Health}");
-        if (Health <= 0)
-        {
-            Die();
+            OnDie();
         }
     }
-    
-    private void Die()
+
+    public void OnDie()
     {
-        // 적 제거 시 점수 추가
-        ScoreManager.Instance.AddScore(10f);
-        
-        // 돈 드롭
-        MoneyManager.Instance.AddMoney(50f);
-        
-        // 적 제거
-        EnemyManager.Instance.RemoveEnemy(gameObject);
-        
-        Debug.Log($"{Name}이 사망했습니다.");
-    }
-    
-    protected virtual void ReachedEnd()
-    {
-        // 플레이어 체력 감소
-        HealthManager.Instance.ReducePlayerHealth(10f);
-        
-        // 적 제거
-        EnemyManager.Instance.RemoveEnemy(gameObject);
-        
-        // 게임 오버 체크
-        GameManager.Instance.CheckGameOver();
-        
-        Debug.Log($"{Name}이 목적지에 도달했습니다.");
-    }
-    
-    public void SetPath(List<Vector3> newPath)
-    {
-        // 경로 설정
-        Path = new List<Vector3>(newPath);
-        _currentPathIndex = 0;
-    }
-    
-    public virtual void SpecialAbility() 
-    {
-        // 적군별 특수 능력 구현
-    }
-    
-    protected virtual void Update()
-    {
-        Move();
+        _enemySpawner.DestroyEnemy(this);
     }
 }
