@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UI;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform canvasTransform;
     [SerializeField] private float spawnTime;
     [SerializeField] private Transform[] wayPoints;
+    [SerializeField] private PlayerHp playerHp;
+    [SerializeField] private PlayerGold playerGold;
 
     private List<Enemy> _enemyList;
     public List<Enemy> EnemyList => _enemyList;
@@ -50,8 +53,17 @@ public class EnemySpawner : MonoBehaviour
         sliderClone.GetComponent<EnemyHpViewer>().Setup(enemy.GetComponent<EnemyHp>());
     }
     
-    public void DestroyEnemy(Enemy enemy)
+    public void DestroyEnemy(EnemyDestroyType type, Enemy enemy, int gold)
     {
+        if (type == EnemyDestroyType.Arrive)
+        {
+            playerHp.TakeDamage(1);
+        }
+        else if (type == EnemyDestroyType.Kill)
+        {
+            playerGold.CurrentGold += gold;
+        }
+        
         _enemyList.Remove(enemy);
         Destroy(enemy.gameObject);
     }

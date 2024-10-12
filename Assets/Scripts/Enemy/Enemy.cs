@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     private Movement _movement;
     private EnemySpawner _enemySpawner;
 
+    [SerializeField] private int gold = 10;
+
     public void Setup(EnemySpawner enemySpawner, Transform[] wayPoints)
     {
         _movement = GetComponent<Movement>();
@@ -51,12 +53,13 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            OnDie();
+            gold = 0;
+            OnDie(EnemyDestroyType.Arrive);
         }
     }
 
-    public void OnDie()
+    public void OnDie(EnemyDestroyType type)
     {
-        _enemySpawner.DestroyEnemy(this);
+        _enemySpawner.DestroyEnemy(type, this, gold);
     }
 }
