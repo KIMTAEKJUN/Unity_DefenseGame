@@ -22,21 +22,6 @@ namespace Manager
             CurrentGameState = GameState.MainMenu;
         }
 
-        private void Update()
-        {
-            if (CurrentGameState == GameState.Playing)
-            {
-                LevelManager.Instance.UpdateLevel(Time.deltaTime);
-            }
-        }
-
-        public void StartGame(int level)
-        {
-            HealthManager.Instance.Initialize(100f);
-            CurrentGameState = GameState.Playing;
-            LevelManager.Instance.StartLevel(level);
-        }
-
         public void PauseGame()
         {
             if (CurrentGameState == GameState.Playing)

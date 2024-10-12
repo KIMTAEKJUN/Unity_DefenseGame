@@ -15,20 +15,6 @@ namespace UI
 
         private bool _isPaused = false;
 
-        private void Start()
-        {
-            UpdateMoneyUI(MoneyManager.Instance.Money);
-            UpdateTimeUI(LevelManager.Instance.LevelDuration);
-
-            buildTowerButton.onClick.AddListener(BuildTower);
-            pauseButton.onClick.AddListener(PauseGame);
-        }
-
-        private void Update()
-        {
-            UpdateTimeUI(LevelManager.Instance.LevelDuration - LevelManager.Instance.ElapsedTime);
-        }
-
         public void UpdateMoneyUI(float money)
         {
             moneyText.text = $"현재 돈: {money}";

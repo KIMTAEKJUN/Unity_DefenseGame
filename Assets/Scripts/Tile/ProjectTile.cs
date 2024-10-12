@@ -5,11 +5,13 @@ public class ProjectTile : MonoBehaviour
 {
     private Movement _movement;
     private Transform _target;
+    private int _damage;
 
-    public void SetUp(Transform target)
+    public void SetUp(Transform target, int damage)
     {
         _movement = GetComponent<Movement>();
         _target = target;
+        _damage = damage;
     }
 
     private void Update()
@@ -30,7 +32,7 @@ public class ProjectTile : MonoBehaviour
         if (!collision.CompareTag("Enemy")) return;
         if (collision.transform != _target) return;
         
-        collision.GetComponent<Enemy>().OnDie();
+        collision.GetComponent<EnemyHp>().TakeDamage(_damage);
         Destroy(gameObject);
     }
 }
