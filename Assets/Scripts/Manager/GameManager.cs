@@ -50,10 +50,10 @@ namespace Manager
 
         public void CheckGameOver()
         {
-            if (HealthManager.Instance.PlayerHealth <= 0)
-            {
-                GameOver();
-            }
+            // if (HealthManager.Instance.PlayerHealth <= 0)
+            // {
+            //     GameOver();
+            // }
         }
     }
 }

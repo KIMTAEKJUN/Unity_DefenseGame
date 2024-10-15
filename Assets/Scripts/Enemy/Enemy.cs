@@ -1,4 +1,5 @@
 using System.Collections;
+using Manager;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,14 +8,14 @@ public class Enemy : MonoBehaviour
     private Transform[] _wayPoints;
     private int _currentWayPointIndex = 0;
     private Movement _movement;
-    private EnemySpawner _enemySpawner;
+    private EnemyManager _enemyManager;
 
     [SerializeField] private int gold = 10;
 
-    public void Setup(EnemySpawner enemySpawner, Transform[] wayPoints)
+    public void Setup(EnemyManager enemyManager, Transform[] wayPoints)
     {
         _movement = GetComponent<Movement>();
-        _enemySpawner = enemySpawner;
+        _enemyManager = enemyManager;
         
         _wayPointCount = wayPoints.Length;
         _wayPoints = new Transform[_wayPointCount];
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
         
         transform.position = _wayPoints[_currentWayPointIndex].position;
 
-        StartCoroutine("OnMove");
+        StartCoroutine(OnMove());
     }
 
     private IEnumerator OnMove()
@@ -60,6 +61,6 @@ public class Enemy : MonoBehaviour
 
     public void OnDie(EnemyDestroyType type)
     {
-        _enemySpawner.DestroyEnemy(type, this, gold);
+        _enemyManager.HandleEnemyDestroy(type, this, gold);
     }
 }

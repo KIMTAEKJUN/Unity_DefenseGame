@@ -1,10 +1,11 @@
 ﻿using System;
+using Manager;
 using UnityEngine;
 
 public class ObjectDetector : MonoBehaviour
 {
     [SerializeField]
-    private TowerSpawner towerSpawner;
+    private TowerManager _towerManager;
     private Camera _mainCamera;
     private Ray _ray;
     private RaycastHit _hit;
@@ -24,7 +25,7 @@ public class ObjectDetector : MonoBehaviour
             {
                 if (_hit.collider.CompareTag("Tile"))
                 {
-                    towerSpawner.SpawnTower(_hit.transform);
+                    _towerManager.BuildTower(_hit.transform);
                 }
             }
         }

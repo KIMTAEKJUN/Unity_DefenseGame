@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Manager;
 using UnityEngine;
 
 public class TowerWeapon : MonoBehaviour
@@ -13,11 +14,11 @@ public class TowerWeapon : MonoBehaviour
     
     private WeaponState _weaponState = WeaponState.SearchTarget;
     private Transform _attackTarget = null;
-    private EnemySpawner _enemySpawner;
+    private EnemyManager _enemyManager;
 
-    public void SetUp(EnemySpawner enemySpawner)
+    public void SetUp(EnemyManager enemyManager)
     {
-        _enemySpawner = enemySpawner;
+        _enemyManager = enemyManager;
         ChangeState(WeaponState.SearchTarget);
     }
 
@@ -50,13 +51,13 @@ public class TowerWeapon : MonoBehaviour
         {
             float closestDistSqr = Mathf.Infinity;
 
-            for (int i = 0; i < _enemySpawner.EnemyList.Count; ++i)
+            for (int i = 0; i < _enemyManager.EnemyList.Count; ++i)
             {
-                float distance = Vector3.Distance(_enemySpawner.EnemyList[i].transform.position, transform.position);
+                float distance = Vector3.Distance(_enemyManager.EnemyList[i].transform.position, transform.position);
                 if (distance <= attackRange && distance <= closestDistSqr)
                 {
                     closestDistSqr = distance;
-                    _attackTarget = _enemySpawner.EnemyList[i].transform;
+                    _attackTarget = _enemyManager.EnemyList[i].transform;
                 }
             }
             

@@ -22,8 +22,8 @@ namespace Player
         {
             _currentHp -= damage;
             
-            StopCoroutine("HitAlphaAnimation");
-            StartCoroutine("HitAlphaAnimation");
+            StopCoroutine(HitAlphaAnimation());
+            StartCoroutine(HitAlphaAnimation());
             
             if (_currentHp <= 0)
             {
