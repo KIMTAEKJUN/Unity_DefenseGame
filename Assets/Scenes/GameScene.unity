@@ -267,8 +267,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 419650137}
-        m_TargetAssemblyTypeName: Map.WaveSystem, Assembly-CSharp
+      - m_Target: {fileID: 419650138}
+        m_TargetAssemblyTypeName: Manager.WaveManager, Assembly-CSharp
         m_MethodName: StartWave
         m_Mode: 1
         m_Arguments:
@@ -1677,7 +1677,7 @@ MonoBehaviour:
   textPlayerGold: {fileID: 371791771}
   playerGold: {fileID: 1904767014}
   textWave: {fileID: 439843210}
-  waveSystem: {fileID: 419650137}
+  waveManager: {fileID: 419650138}
   textEnemyCount: {fileID: 3655668802759846759}
   enemyManager: {fileID: 419650136}
 --- !u!1001 &338418390
@@ -2258,7 +2258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 419650135}
   - component: {fileID: 419650136}
-  - component: {fileID: 419650137}
+  - component: {fileID: 419650138}
   m_Layer: 0
   m_Name: EnemyManager
   m_TagString: Untagged
@@ -2314,7 +2314,7 @@ MonoBehaviour:
   - {fileID: 1906271143}
   playerHp: {fileID: 1904767012}
   playerGold: {fileID: 1904767014}
---- !u!114 &419650137
+--- !u!114 &419650138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2323,7 +2323,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 419650133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dec871a67ea4ed6bb315b3cec64975a, type: 3}
+  m_Script: {fileID: 11500000, guid: c721bfbdc96f47bb8cd360c2aebeeb78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
@@ -2331,7 +2331,7 @@ MonoBehaviour:
     maxEnemyCount: 10
     enemyPrefabs:
     - {fileID: 3359785414692352270, guid: 6c5970128fed03544879528420fb6037, type: 3}
-  - spawnTime: 0.7
+  - spawnTime: 0.5
     maxEnemyCount: 20
     enemyPrefabs:
     - {fileID: 3359785414692352270, guid: 5362e05c77283414bbd19876c8de9992, type: 3}

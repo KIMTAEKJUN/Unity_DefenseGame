@@ -1,9 +1,10 @@
-using Manager;
+using Map;
+using Pattern;
 using UnityEngine;
 
-namespace Map
+namespace Manager
 {
-    public class WaveSystem : MonoBehaviour
+    public class WaveManager : Singleton<WaveManager>
     {
         [SerializeField] private Wave[] waves;
         [SerializeField] private EnemyManager enemyManager;

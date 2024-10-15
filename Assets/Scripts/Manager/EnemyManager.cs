@@ -20,9 +20,8 @@ namespace Manager
         [SerializeField] private PlayerHp playerHp;
         [SerializeField] private PlayerGold playerGold;
         
-        private WaveSystem _waveSystem;
+        private WaveManager _waveManager;
         private Wave _currentWave;
-        // private int _currentWaveIndex = 0;
         private int _currentEnemyCount;
         private List<Enemy> _enemyList = new List<Enemy>();
         
@@ -32,8 +31,8 @@ namespace Manager
 
         private void Start()
         {
-            _waveSystem = GetComponent<WaveSystem>();
-            if (_waveSystem == null)
+            _waveManager = GetComponent<WaveManager>();
+            if (_waveManager == null)
             {
                 Debug.LogError("웨이브 시스템이 없습니다.");
             }
@@ -98,7 +97,7 @@ namespace Manager
             // 모든 적이 제거되면 다음 웨이브 시작
             if (_enemyList.Count == 0)
             {
-                _waveSystem.StartWave();
+                _waveManager.StartWave();
             }
         }
     }

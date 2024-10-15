@@ -13,7 +13,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI textPlayerGold;
         [SerializeField] private PlayerGold playerGold;
         [SerializeField] private TextMeshProUGUI textWave;
-        [SerializeField] private WaveSystem waveSystem;
+        [SerializeField] private WaveManager waveManager;
         [SerializeField] private TextMeshProUGUI textEnemyCount;
         [SerializeField] private EnemyManager enemyManager;
 
@@ -21,7 +21,7 @@ namespace UI
         {
             textPlayerHp.text = playerHp.CurrentHp + "/" + playerHp.MaxHp;
             textPlayerGold.text = playerGold.CurrentGold.ToString();
-            textWave.text = waveSystem.CurrentWave + "/" + waveSystem.MaxWave;
+            textWave.text = waveManager.CurrentWave + "/" + waveManager.MaxWave;
             textEnemyCount.text = enemyManager.CurrentEnemyCount + "/" + enemyManager.MaxEnemyCount;
         }
     }
