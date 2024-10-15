@@ -1,51 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Map;
 using Pattern;
 using Player;
 using UI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Manager
 {
     public class EnemyManager : Singleton<EnemyManager>
     {
-        [SerializeField]
-        private GameObject enemyPrefab;
         [SerializeField] 
         private GameObject enemyHpSliderPrefab;
-
+        
         [SerializeField] private Transform canvasTransform;
-        [SerializeField] private float spawnTime;
         [SerializeField] private Transform[] wayPoints;
         [SerializeField] private PlayerHp playerHp;
         [SerializeField] private PlayerGold playerGold;
         
+        private WaveSystem _waveSystem;
+        private Wave _currentWave;
+        // private int _currentWaveIndex = 0;
+        private int _currentEnemyCount;
         private List<Enemy> _enemyList = new List<Enemy>();
+        
         public List<Enemy> EnemyList => _enemyList;
+        public int CurrentEnemyCount => _currentEnemyCount;
+        public int MaxEnemyCount => _currentWave.maxEnemyCount;
 
         private void Start()
         {
-            StartCoroutine(SpawnEnemyRoutine());
-        }
-        
-        private IEnumerator SpawnEnemyRoutine()
-        {
-            while (true)
+            _waveSystem = GetComponent<WaveSystem>();
+            if (_waveSystem == null)
             {
-                SpawnEnemy();
-                yield return new WaitForSeconds(spawnTime);
+                Debug.LogError("웨이브 시스템이 없습니다.");
             }
         }
 
-        private void SpawnEnemy()
+        public void StartWave(Wave wave)
         {
-            GameObject enemyObject = Instantiate(enemyPrefab);
-            Enemy enemy = enemyObject.GetComponent<Enemy>();
-        
-            enemy.Setup(this, wayPoints);
-            _enemyList.Add(enemy);
+            _currentWave = wave;
+            _currentEnemyCount = _currentWave.maxEnemyCount;
+            StartCoroutine(SpawnEnemy());
+        }
 
-            CreateEnemyHpSlider(enemyObject);
+        private IEnumerator SpawnEnemy()
+        {
+            int spawnEnemyCount = 0;
+
+            while (spawnEnemyCount < _currentWave.maxEnemyCount)
+            {
+                int enemyIndex = Random.Range(0, _currentWave.enemyPrefabs.Length);
+                GameObject enemyObject = Instantiate(_currentWave.enemyPrefabs[enemyIndex]);
+                Enemy enemy = enemyObject.GetComponent<Enemy>();
+                
+                enemy.Setup(this, wayPoints);
+                _enemyList.Add(enemy);
+
+                spawnEnemyCount++;
+                
+                CreateEnemyHpSlider(enemyObject);
+                
+                yield return new WaitForSeconds(_currentWave.spawnTime);
+            }
         }
 
         private void CreateEnemyHpSlider(GameObject enemyObject)
@@ -71,9 +90,16 @@ namespace Manager
                     playerGold.CurrentGold += gold;
                     break;
             }
-        
+
+            _currentEnemyCount--;
             _enemyList.Remove(enemy);
             Destroy(enemy.gameObject);
+            
+            // 모든 적이 제거되면 다음 웨이브 시작
+            if (_enemyList.Count == 0)
+            {
+                _waveSystem.StartWave();
+            }
         }
     }
 }
