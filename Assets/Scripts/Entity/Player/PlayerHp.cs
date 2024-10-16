@@ -16,7 +16,7 @@ namespace Player
         public event Action<float> OnHpChanged;
         
         // 플레이어가 죽었을 때 호출할 이벤트
-        public event Action OnPlayerDied;
+        public event Action OnPlayerDeath;
         
         public float MaxHp => maxHp;
         public float CurrentHp
@@ -24,10 +24,11 @@ namespace Player
             get => _currentHp;
             private set
             {
-                if (_currentHp != value)
+                _currentHp = Mathf.Clamp(value, 0, maxHp);
+                OnHpChanged?.Invoke(_currentHp);
+                if (_currentHp <= 0)
                 {
-                    _currentHp = Mathf.Clamp(value, 0, maxHp);
-                    OnHpChanged?.Invoke(_currentHp);
+                    OnPlayerDeath?.Invoke();
                 }
             }
         }
@@ -47,7 +48,7 @@ namespace Player
             if (CurrentHp <= 0)
             {
                 Debug.Log("Player Die");
-                OnPlayerDied?.Invoke();
+                OnPlayerDeath?.Invoke();
             }
         }
         

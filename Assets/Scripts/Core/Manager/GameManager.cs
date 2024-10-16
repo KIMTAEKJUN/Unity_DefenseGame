@@ -1,59 +1,37 @@
 ﻿using Pattern;
+using Player;
+using TMPro;
 using UnityEngine;
 
 namespace Manager
 {
     public class GameManager : Singleton<GameManager>
     {
-        public GameState CurrentGameState { get; private set; }
-
-        public enum GameState
-        {
-            MainMenu,
-            Playing,
-            Paused,
-            GameOver,
-            LevelComplete
-        }
+        [SerializeField] private PlayerHp playerHp;
+        [SerializeField] private GameObject gameOverCanvas;
+        [SerializeField] private TextMeshProUGUI gameOverText;
 
         private void Start()
         {
-            // Initialize game
-            CurrentGameState = GameState.MainMenu;
+            playerHp.OnPlayerDeath += HandleGameOver;
+            gameOverCanvas.SetActive(false);  // 시작 시 게임 오버 UI 숨기기
         }
 
-        public void PauseGame()
+        private void OnDestroy()
         {
-            if (CurrentGameState == GameState.Playing)
-            {
-                CurrentGameState = GameState.Paused;
-                Time.timeScale = 0f;
-            }
-            else if (CurrentGameState == GameState.Paused)
-            {
-                CurrentGameState = GameState.Playing;
-                Time.timeScale = 1f;
-            }
+            playerHp.OnPlayerDeath -= HandleGameOver;
         }
 
-        public void GameOver()
+        private void HandleGameOver()
         {
-            CurrentGameState = GameState.GameOver;
-            // Handle game over logic
+            Debug.Log("Game Over!");
+            Time.timeScale = 0;  // 게임 정지
+            ShowGameOverUI();
         }
-
-        public void OnLevelComplete()
+        
+        private void ShowGameOverUI()
         {
-            CurrentGameState = GameState.LevelComplete;
-            // Handle level completion logic
-        }
-
-        public void CheckGameOver()
-        {
-            // if (HealthManager.Instance.PlayerHealth <= 0)
-            // {
-            //     GameOver();
-            // }
+            gameOverCanvas.SetActive(true);
         }
     }
 }
