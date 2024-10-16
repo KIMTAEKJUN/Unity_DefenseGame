@@ -2347,6 +2347,14 @@ MonoBehaviour:
     maxEnemyCount: 50
     enemyPrefabs:
     - {fileID: 3359785414692352270, guid: 8e512c8519f574206a032f8cf3586490, type: 3}
+  - spawnTime: 0.5
+    maxEnemyCount: 80
+    enemyPrefabs:
+    - {fileID: 3359785414692352270, guid: 6c5970128fed03544879528420fb6037, type: 3}
+    - {fileID: 3359785414692352270, guid: 5362e05c77283414bbd19876c8de9992, type: 3}
+    - {fileID: 3359785414692352270, guid: db3ab4fa3fdc54aab848b286c063452b, type: 3}
+    - {fileID: 3359785414692352270, guid: 973d25d6ca4a04084ba170c4ae90462e, type: 3}
+    - {fileID: 3359785414692352270, guid: 8e512c8519f574206a032f8cf3586490, type: 3}
   enemyManager: {fileID: 419650136}
 --- !u!1001 &428440464
 PrefabInstance:
