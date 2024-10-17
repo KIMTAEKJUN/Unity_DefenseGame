@@ -2404,15 +2404,14 @@ MonoBehaviour:
     enemyPrefabs:
     - {fileID: 3359785414692352270, guid: 8e512c8519f574206a032f8cf3586490, type: 3}
   - spawnTime: 0.5
-    maxEnemyCount: 60
+    maxEnemyCount: 80
     enemyPrefabs:
-    - {fileID: 3359785414692352270, guid: 6c5970128fed03544879528420fb6037, type: 3}
-    - {fileID: 3359785414692352270, guid: 5362e05c77283414bbd19876c8de9992, type: 3}
-    - {fileID: 3359785414692352270, guid: db3ab4fa3fdc54aab848b286c063452b, type: 3}
-    - {fileID: 3359785414692352270, guid: 973d25d6ca4a04084ba170c4ae90462e, type: 3}
     - {fileID: 3359785414692352270, guid: 8e512c8519f574206a032f8cf3586490, type: 3}
+    - {fileID: 3359785414692352270, guid: 973d25d6ca4a04084ba170c4ae90462e, type: 3}
+    - {fileID: 3359785414692352270, guid: db3ab4fa3fdc54aab848b286c063452b, type: 3}
   enemyManager: {fileID: 419650136}
-  timeBetweenWaves: 3
+  timeBetweenWaves: 2
+  waveStartButton: {fileID: 50291945}
 --- !u!1001 &428440464
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11155,9 +11154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHp: {fileID: 1904767012}
+  gameClearCanvas: {fileID: 1220297719}
   gameOverCanvas: {fileID: 1250336967}
+  gameClearText: {fileID: 1217768074}
   gameOverText: {fileID: 914098978}
-  fadeImage: {fileID: 1969945010}
+  gameClearFadeImage: {fileID: 1905976511}
+  gameOverFadeImage: {fileID: 1969945010}
   fadeDuration: 1
 --- !u!4 &1746498454
 Transform:
@@ -14401,8 +14403,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 489841898}
   - {fileID: 955829688}
-  - {fileID: 1250336971}
   - {fileID: 1220297723}
+  - {fileID: 1250336971}
   - {fileID: 2116061835}
   - {fileID: 1746498454}
   - {fileID: 419650135}
