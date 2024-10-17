@@ -97,7 +97,7 @@ namespace Manager
             // 모든 적이 제거되면 다음 웨이브 시작
             if (_enemyList.Count == 0)
             {
-                _waveManager.StartWave();
+                WaveManager.Instance.CheckWaveEnd();
             }
         }
     }

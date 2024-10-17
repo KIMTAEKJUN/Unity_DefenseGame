@@ -1,7 +1,9 @@
-﻿using Pattern;
+﻿using System.Collections;
+using Pattern;
 using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Manager
 {
@@ -10,6 +12,8 @@ namespace Manager
         [SerializeField] private PlayerHp playerHp;
         [SerializeField] private GameObject gameOverCanvas;
         [SerializeField] private TextMeshProUGUI gameOverText;
+        [SerializeField] private Image fadeImage;
+        [SerializeField] private float fadeDuration = 1f;
 
         private void Start()
         {
@@ -32,6 +36,23 @@ namespace Manager
         private void ShowGameOverUI()
         {
             gameOverCanvas.SetActive(true);
+            StartCoroutine(FadeIn());
+        }
+        
+        private IEnumerator FadeIn()
+        {
+            float elapsedTime = 0f;
+            Color color = fadeImage.color;
+            color.a = 0f;
+            fadeImage.color = color;
+
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                color.a = Mathf.Clamp01(elapsedTime / fadeDuration);
+                fadeImage.color = color;
+                yield return null;
+            }
         }
     }
 }
