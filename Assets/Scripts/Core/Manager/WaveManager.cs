@@ -19,6 +19,11 @@ namespace Manager
         public event Action<int> OnWaveEnd;
         public event Action<int> OnWaveStart;
         
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        
         public void StartWave()
         {
             if (_currentWaveIndex < waves.Length - 1)
