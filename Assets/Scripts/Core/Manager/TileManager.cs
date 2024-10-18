@@ -11,12 +11,18 @@ namespace Manager
 
         private void Start()
         {
-            WaveManager.Instance.OnWaveEnd += ChangeWaveColor;
+            if (WaveManager.Instance != null)
+            {
+                WaveManager.Instance.OnWaveEnd += ChangeWaveColor;
+            }
         }
 
         private void OnDestroy()
         {
-            WaveManager.Instance.OnWaveEnd -= ChangeWaveColor;
+            if (WaveManager.Instance != null)
+            {
+                WaveManager.Instance.OnWaveEnd -= ChangeWaveColor;
+            }
         }
 
         private void ChangeWaveColor(int waveIndex)
