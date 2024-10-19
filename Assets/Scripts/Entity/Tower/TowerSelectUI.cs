@@ -18,12 +18,18 @@ namespace Entity.Tower
                     towerButtons[i].onClick.AddListener(() => OnTowerButtonClick(index));
                 }
 
-                TowerManager.Instance.OnTowerSelected += HighlightSelectedTower;
+                if (TowerManager.Instance != null)
+                {
+                    TowerManager.Instance.OnTowerSelected += HighlightSelectedTower;
+                }
             }
 
             private void OnTowerButtonClick(int index)
             {
-                TowerManager.Instance.SelectTower(index);
+                if (TowerManager.Instance != null)
+                {
+                    TowerManager.Instance.SelectTower(index);
+                }
             }
 
             private void HighlightSelectedTower(int index)

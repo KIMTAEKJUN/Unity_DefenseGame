@@ -3011,15 +3011,15 @@ MonoBehaviour:
     - {fileID: 3359785414692352270, guid: 620184c7282d64885beaeb5ecd3bb360, type: 3}
     - {fileID: 3359785414692352270, guid: c17b70d720e7b482db692ebdc56b82da, type: 3}
   - spawnTime: 0.8
-    maxEnemyCount: 65
+    maxEnemyCount: 3
     enemyPrefabs:
     - {fileID: 3359785414692352270, guid: 973d25d6ca4a04084ba170c4ae90462e, type: 3}
     - {fileID: 3359785414692352270, guid: 8e512c8519f574206a032f8cf3586490, type: 3}
     - {fileID: 3359785414692352270, guid: 620184c7282d64885beaeb5ecd3bb360, type: 3}
     - {fileID: 3359785414692352270, guid: c17b70d720e7b482db692ebdc56b82da, type: 3}
     - {fileID: 3359785414692352270, guid: e983a5025a8d343b3ab68fd0c72c4f69, type: 3}
-    - {fileID: 3359785414692352270, guid: 537567149ac024af88ac1d661b4c0fb1, type: 3}
     - {fileID: 652724837351408439, guid: fd3fd3b6846fd4a26b5bbc2eebdd8e9a, type: 3}
+    - {fileID: 3359785414692352270, guid: 537567149ac024af88ac1d661b4c0fb1, type: 3}
   enemyManager: {fileID: 419650136}
   timeBetweenWaves: 2
 --- !u!1 &439843208
@@ -12974,7 +12974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332980304ef74db798e02ad533b386a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGold: 10000
+  currentGold: 5000
 --- !u!1 &1905976509
 GameObject:
   m_ObjectHideFlags: 0
@@ -13531,8 +13531,6 @@ MonoBehaviour:
   - {fileID: 943586647}
   - {fileID: 705907737}
   - {fileID: 1189903430}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 411997111}
   - {fileID: 296280330}
   - {fileID: 620273624}
@@ -13543,10 +13541,7 @@ MonoBehaviour:
   - {fileID: 2097895047}
   - {fileID: 297745339}
   - {fileID: 1843341686}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1095215991}
-  - {fileID: 0}
   - {fileID: 1603191156}
   - {fileID: 1284370706}
   - {fileID: 664157498}

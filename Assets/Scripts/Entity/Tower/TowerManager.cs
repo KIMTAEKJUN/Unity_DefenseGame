@@ -16,12 +16,6 @@ namespace Manager
         
         public event Action<int> OnTowerSelected;
         public bool CanBuildTower => _selectedTowerIndex != -1 && playerGold.CurrentGold >= towerCosts[_selectedTowerIndex];
-        
-        protected override void Awake()
-        {
-            base.Awake();
-            SelectTower(0);
-        }
 
         public void BuildTower(Transform tileTransform)
         {
