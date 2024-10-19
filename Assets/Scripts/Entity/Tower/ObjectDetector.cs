@@ -1,31 +1,38 @@
-﻿using System;
+﻿using UnityEngine;
 using Manager;
-using UnityEngine;
 
 public class ObjectDetector : MonoBehaviour
 {
-    [SerializeField]
-    private TowerManager _towerManager;
+    [SerializeField] private TowerManager towerManager;
     private Camera _mainCamera;
-    private Ray _ray;
-    private RaycastHit _hit;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
+        if (_mainCamera == null)
+        {
+            Debug.LogError("Main Camera not found!");
+        }
+
+        if (towerManager == null)
+        {
+            Debug.LogError("TowerManager reference is missing!");
+        }
     }
 
     private void Update()
     {
+        if (_mainCamera == null || towerManager == null) return;
+
         if (Input.GetMouseButtonDown(0))
         {
-            _ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             
-            if (Physics.Raycast(_ray, out _hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
-                if (_hit.collider.CompareTag("Tile"))
+                if (hit.collider != null && hit.collider.CompareTag("Tile"))
                 {
-                    _towerManager.BuildTower(_hit.transform);
+                    towerManager.BuildTower(hit.transform);
                 }
             }
         }
